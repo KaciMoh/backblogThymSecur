@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.kaci.blogspring0505.entities.Article;
 import com.kaci.blogspring0505.service.IRedacteurService;
 
-
 //@Controller // Utliser Thymleaf (jsp)
 //@RestController // API - récupérer les données en format JSON
 
@@ -26,17 +25,17 @@ public class RedacteurRestController {
     @Autowired // injection de dépendance
     private IRedacteurService iRedacteurService;
 
-    //CREATE
+    // CREATE
 
     @PostMapping("/redact/nouvelarticle")
-    public Article creeArticle(@RequestBody Article article){ //@RequestBody
+    public Article creeArticle(@RequestBody Article article) { // @RequestBody
         article.set_public(true); // par défaut (consignes)
         article.setModere(false); // par défaut (consignes)
         article.setDate(new Date());
         return iRedacteurService.creeArticle(article);
     }
 
-    //READ
+    // READ
 
     @GetMapping("/redact/index") // index des articles
     public List<Article> listeArticle() {
@@ -44,24 +43,26 @@ public class RedacteurRestController {
     }
 
     @GetMapping("/redact/article/{idArticle}") // afficher un article
-    public Article afficheArticle(@PathVariable Long idArticle) { //@PathVariable
+    public Article afficheArticle(@PathVariable Long idArticle) { // @PathVariable
         return iRedacteurService.afficheArticle(idArticle);
     }
 
-    //UPDATE
+    // UPDATE
     @PutMapping("/redact/modifie/{idArticle}")
-    public Article modifieArticle(@RequestBody Article article, @PathVariable Long idArticle){
+    public Article modifieArticle(@RequestBody Article article, @PathVariable Long idArticle) {
         return iRedacteurService.modifieArticle(article, idArticle);
     }
 
-    //DELETE
-    @DeleteMapping("/redact/supprime/{idArticle}")
-    public String supprimeArticle(@PathVariable Long idArticle){
-        return iRedacteurService.supprimeArticle(idArticle);
-    }
+    // DELETE
+    /*
+     * @DeleteMapping("/redact/supprime/{idArticle}")
+     * public String supprimeArticle(@PathVariable Long idArticle){
+     * return iRedacteurService.supprimeArticle(idArticle);
+     * }
+     */
 
     /* Commentaire **************************/
-//CREATE
+    // CREATE
     // Crée un commentaire d'un article
     @PostMapping("/redact/commentaire/{article}")
     public Commentaire creeCommentaireArticle(@RequestBody Commentaire commentaire, @PathVariable Article article) {
@@ -72,8 +73,8 @@ public class RedacteurRestController {
         return iRedacteurService.creeCommentaire(commentaire);
     }
 
-    //READ
-    //Affiche les commentaires d'un article
+    // READ
+    // Affiche les commentaires d'un article
     @GetMapping("/redact/commentaires/{article}")
     public List<Commentaire> listeCommentairesParArticle(@PathVariable Article article) {
         return iRedacteurService.commentairesArticle(article.getIdArticle());

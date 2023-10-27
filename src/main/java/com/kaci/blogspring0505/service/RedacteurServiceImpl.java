@@ -14,7 +14,7 @@ import com.kaci.blogspring0505.repository.IArticleRepository;
 import com.kaci.blogspring0505.repository.ICommentaireRepository;
 
 @Service // Service est obligatoire
-//@AllArgsConstructor // All Args ou Autowired
+// @AllArgsConstructor // All Args ou Autowired
 public class RedacteurServiceImpl implements IRedacteurService {
 
     @Autowired
@@ -24,18 +24,21 @@ public class RedacteurServiceImpl implements IRedacteurService {
     @Autowired
     private ICompteRepository iCompteRepository;
 
-        /** Article */
-    //CREATE
+    /** Article */
+    // CREATE
     @Override
     public Article creeArticle(Article article) {
-        /*article.set_public(true);
-        article.setModere(false);
-        article.setTitre("Le titre");
-        article.setContenu("Le contenu");
-        article.setDate(new Date());*/
+        /*
+         * article.set_public(true);
+         * article.setModere(false);
+         * article.setTitre("Le titre");
+         * article.setContenu("Le contenu");
+         * article.setDate(new Date());
+         */
         return iArticleRepository.save(article);
     }
-    //READ
+
+    // READ
     @Override
     public List<Article> listeArticle() {
         return iArticleRepository.findAll();
@@ -45,8 +48,8 @@ public class RedacteurServiceImpl implements IRedacteurService {
     public Article afficheArticle(Long idArticle) {
         return iArticleRepository.chercheArticleId(idArticle);
     }
-    
-    //UPDATE
+
+    // UPDATE
     @Override
     public Article modifieArticle(Article article, Long idArticle) {
         Article articleSilExiste = iArticleRepository.chercheArticleId(idArticle); // cas erreur ?
@@ -55,61 +58,62 @@ public class RedacteurServiceImpl implements IRedacteurService {
         return iArticleRepository.save(articleSilExiste);
     }
 
-    //DELETE
+    // DELETE
 
     @Override
-    public String supprimeArticle(Long idArticle) {
+    public String supprimeArticle(Article article, Long idArticle) {
         Article articleSilExiste = iArticleRepository.chercheArticleId(idArticle); //
-        //Il faut d'abord supprimer les commentaires qui lui sont associés
-        //1-suppression des commentaires
+        // Il faut d'abord supprimer les commentaires qui lui sont associés
+        // 1-suppression des commentaires
         // Méthode 1 : JPA
-        //List<Commentaire> liste=iCommentaireRepository.deleteByArticle(articleSilExiste);
+        // List<Commentaire>
+        // liste=iCommentaireRepository.deleteByArticle(articleSilExiste);
         // Méthode 2 : @Query
         iCommentaireRepository.supprimeCommentairesArticle(articleSilExiste);
-        //2- ensuite suppression de l'article
-        //Méthode 1 : JPA
-        //iArticleRepository.deleteByIdArticle(idArticle);
+        // 2- ensuite suppression de l'article
+        // Méthode 1 : JPA
+        // iArticleRepository.deleteByIdArticle(idArticle);
         // Méthode 2 : @Query
         iArticleRepository.supprimeArticle(idArticle);
 
         return "Article supprimé !";
     }
-    
+
     /** ------------------------*** */
-    //fonctions de recherche --------
-    //Article
+    // fonctions de recherche --------
+    // Article
     @Override
     public Article chercheArticle(Long id) {
         Optional<Article> article = Optional.ofNullable(iArticleRepository.chercheArticleId(id));
-        if(article.isPresent()){
+        if (article.isPresent()) {
             return article.get();
         }
         throw new RuntimeException("Article introuvable");
     }
 
     /* Commentaire *******************/
-    //CREATE
+    // CREATE
     // Crée un commentaire pour un article
     @Override
     public Commentaire creeCommentaire(Commentaire commentaire) {
-        //commentaire.setArticle(article);
+        // commentaire.setArticle(article);
         return iCommentaireRepository.save(commentaire);
     }
 
-    //READ
-    //Affiche les commentaires d'un article
+    // READ
+    // Affiche les commentaires d'un article
     @Override
     public List<Commentaire> commentairesArticle(Long idArticle) {
         return iCommentaireRepository.commentairesArticle(idArticle);
     }
 
-    //Affiche un commentaire avec ID
+    // Affiche un commentaire avec ID
     @Override
-    public  Commentaire afficheCommentaire(Long idCommentaire){
+    public Commentaire afficheCommentaire(Long idCommentaire) {
         return iCommentaireRepository.chercheCommentaireId(idCommentaire);
     }
 
-    //DELETE
+    // DELETE
     // Supprime un commentaire
     @Override
     public String supprimeCommentaire(Long idCommentaire) {
@@ -117,35 +121,34 @@ public class RedacteurServiceImpl implements IRedacteurService {
         return "Commentaire supprimé";
     }
 
-
     /***** Compte *******************/
-    //CREATE
+    // CREATE
     // Dans IInternanteService
 
-    //READ
-    //cherche le compte d'un article
+    // READ
+    // cherche le compte d'un article
     @Override
-    public  Compte chercheCompteArticle(Article article){
+    public Compte chercheCompteArticle(Article article) {
         return iCompteRepository.chercheCompteId(article.getCompte().getIdCompte());
     }
 
-    //cherche le compte d'un article
-    public Compte chercheCompteArticle(Long idArticle){ // Query
+    // cherche le compte d'un article
+    public Compte chercheCompteArticle(Long idArticle) { // Query
         return iCompteRepository.chercheCompteArticle(idArticle);
     }
 
-    //cherche le compte d'un commentaire
+    // cherche le compte d'un commentaire
     @Override
     public Compte chercheCompteCommentaire(Long idCommentaire) {
-        //return iCompteRepository.chercheCompteId(commentaire.getCompte().getIdCompte());
+        // return
+        // iCompteRepository.chercheCompteId(commentaire.getCompte().getIdCompte());
         return iCompteRepository.chercheCompteCommentaire(idCommentaire);
     }
 
-    //Recherche d'un compte par PSEUDO
+    // Recherche d'un compte par PSEUDO
     @Override
     public Compte chercheComptePseudo(String pseudo) {
         return iCompteRepository.chercheComptePseudo(pseudo);
     }
-  
 
 }
