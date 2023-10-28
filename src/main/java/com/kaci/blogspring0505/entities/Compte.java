@@ -14,6 +14,7 @@ public class Compte implements Serializable {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Long idCompte;
+    @Column(unique = true, nullable = false)
     private String email;
     @Column(unique = true, nullable = false)
     private String pseudo;

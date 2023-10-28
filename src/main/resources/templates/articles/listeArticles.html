@@ -11,7 +11,6 @@
     <link rel="stylesheet" href="/webjars/bootstrap-icons/1.10.5/font/bootstrap-icons.css">
     <!---->
     <!--<script src="/webjars/jquery/3.6.4/jquery.min.js"></script>-->
-
     <title>Liste articles</title>
 </head>
 <body class="text-bg-secondary p-3">
@@ -33,11 +32,17 @@
 <!--            <td th:text="${a._public}"></td>
             <td th:text="${a.modere}"></td>-->
             <td  th:if="${#authentication.name.equalsIgnoreCase('anonymousUser')}">
-                <a class="text-decoration-none text-info" th:href="@{/public/listecommentairesarticle(idArticle=${a.idArticle})}">Afficher</a></td>
+                <a class="text-decoration-none text-info" th:href="@{/public/listecommentairesarticle(idArticle=${a.idArticle})}">
+                    Afficher</a></td>
             <td  th:if="${!#authentication.name.equalsIgnoreCase('anonymousUser')}">
-                <a class="text-decoration-none text-info" th:href="@{/redact/listecommentairesarticle(idArticle=${a.idArticle})}">Afficher</a></td>
-            <td th:if="${#authentication.name.equalsIgnoreCase(a.getCompte().getPseudo())}"><a class="text-decoration-none text-info" th:href="@{/redact/editArticle(idArticle=${a.idArticle})}">Modifier</a></td>
-            <td th:if="${#authentication.name.equalsIgnoreCase(a.getCompte().getPseudo())}"><a class="text-decoration-none text-info" th:href="@{/redact/supprimearticle(idArticle=${a.idArticle})}">Supprimer</a></td>
+                <a class="text-decoration-none text-info" th:href="@{/redact/listecommentairesarticle(idArticle=${a.idArticle})}">
+                    Afficher</a></td>
+            <td th:if="${#authentication.name.equalsIgnoreCase(a.getCompte().getPseudo())}">
+                <a class="text-decoration-none text-info" th:href="@{/redact/editArticle(idArticle=${a.idArticle})}">
+                    Modifier</a></td>
+            <td th:if="${#authentication.name.equalsIgnoreCase(a.getCompte().getPseudo())}">
+                <a class="text-decoration-none text-info" th:href="@{/redact/supprimearticle(idArticle=${a.idArticle})}">
+                    Supprimer</a></td>
         </tr>
     </tbody>
     </table>

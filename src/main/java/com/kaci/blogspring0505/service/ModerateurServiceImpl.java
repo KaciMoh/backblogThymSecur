@@ -10,20 +10,19 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class ModerateurServiceImpl implements IModerateurService{
+public class ModerateurServiceImpl implements IModerateurService {
     @Autowired
-    private  IArticleRepository iArticleRepository;
+    private IArticleRepository iArticleRepository;
     @Autowired
-    private  ICommentaireRepository iCommentaireRepository;
+    private ICommentaireRepository iCommentaireRepository;
 
     @Override
     public List<Article> listeArticlesNonModere() {
-
         return iArticleRepository.articlesNonModeres();
     }
 
     /*** Commentaires *************/
-    //READ
+    // READ
     // Liste des Commentaires en attente de modération
     @Override
     public List<Commentaire> listeCommentairesNonModere() {

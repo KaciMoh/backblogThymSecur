@@ -5,6 +5,9 @@ import java.util.Optional;
 
 import com.kaci.blogspring0505.entities.Compte;
 import com.kaci.blogspring0505.repository.ICompteRepository;
+
+import lombok.AllArgsConstructor;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,35 +16,26 @@ import com.kaci.blogspring0505.entities.Commentaire;
 import com.kaci.blogspring0505.repository.IArticleRepository;
 import com.kaci.blogspring0505.repository.ICommentaireRepository;
 
-@Service // Service est obligatoire
-// @AllArgsConstructor // All Args ou Autowired
+@Service // couche Service
+@AllArgsConstructor // // injection des dépendances
 public class RedacteurServiceImpl implements IRedacteurService {
-
-    @Autowired
+    // injection des dépendances
     private IArticleRepository iArticleRepository;
-    @Autowired
     private ICommentaireRepository iCommentaireRepository;
-    @Autowired
     private ICompteRepository iCompteRepository;
 
     /** Article */
     // CREATE
     @Override
     public Article creeArticle(Article article) {
-        /*
-         * article.set_public(true);
-         * article.setModere(false);
-         * article.setTitre("Le titre");
-         * article.setContenu("Le contenu");
-         * article.setDate(new Date());
-         */
         return iArticleRepository.save(article);
     }
 
     // READ
     @Override
     public List<Article> listeArticle() {
-        return iArticleRepository.findAll();
+        // return iArticleRepository.findAll();
+        return iArticleRepository.listeArticle();
     }
 
     @Override
@@ -52,30 +46,19 @@ public class RedacteurServiceImpl implements IRedacteurService {
     // UPDATE
     @Override
     public Article modifieArticle(Article article, Long idArticle) {
-        Article articleSilExiste = iArticleRepository.chercheArticleId(idArticle); // cas erreur ?
+        Article articleSilExiste = iArticleRepository.chercheArticleId(idArticle);
         articleSilExiste.setTitre(article.getTitre());
         articleSilExiste.setContenu(article.getContenu());
         return iArticleRepository.save(articleSilExiste);
     }
 
     // DELETE
-
     @Override
     public String supprimeArticle(Article article, Long idArticle) {
-        Article articleSilExiste = iArticleRepository.chercheArticleId(idArticle); //
-        // Il faut d'abord supprimer les commentaires qui lui sont associés
-        // 1-suppression des commentaires
-        // Méthode 1 : JPA
-        // List<Commentaire>
-        // liste=iCommentaireRepository.deleteByArticle(articleSilExiste);
-        // Méthode 2 : @Query
-        iCommentaireRepository.supprimeCommentairesArticle(articleSilExiste);
-        // 2- ensuite suppression de l'article
-        // Méthode 1 : JPA
-        // iArticleRepository.deleteByIdArticle(idArticle);
-        // Méthode 2 : @Query
+        // 1-suppression des commentaires qui lui sont associés
+        iCommentaireRepository.supprimeCommentairesArticle(article);
+        // 2-ensuite suppression de l'article
         iArticleRepository.supprimeArticle(idArticle);
-
         return "Article supprimé !";
     }
 

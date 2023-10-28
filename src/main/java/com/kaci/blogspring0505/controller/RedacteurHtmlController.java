@@ -106,7 +106,7 @@ public class RedacteurHtmlController {
 
     // 2. Enregistrer les modifications
     @PostMapping("/redact/saveModifArticle") // sauvegarde l'article avec les modifs
-    public String saveModifArticle(Article article, RedirectAttributes ra) { //
+    public String saveModifArticle(Article article) { //
         article.setDateModif(new Date()); // nouvelle date de modification
         // Ajouter le Compte
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -114,8 +114,8 @@ public class RedacteurHtmlController {
         Compte compte = iRedacteurService.chercheComptePseudo(currentUserName);
         article.setCompte(compte); // inserer le compte
         //
-        iRedacteurService.creeArticle(article);
-        ra.addFlashAttribute("Article enregistré");
+        // iRedacteurService.creeArticle(article);
+        iRedacteurService.modifieArticle(article, null);
         return "redirect:'/redact/index'";
     }
 

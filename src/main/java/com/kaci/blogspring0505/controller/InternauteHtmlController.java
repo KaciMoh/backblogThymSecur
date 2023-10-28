@@ -86,6 +86,8 @@ public class InternauteHtmlController {
         compte.setEfface(false);
         compte.setSupressionDonnee(false);
         compte.setValide(false);
+        //Encodage du mot de passe
+        compte.setMotDePasse(passwordEncoder.encode(compte.getMotDePasse()));
 
         // Type Compte = "redacteur"
         TypeCompte typeCompte = iInternauteService.chercheTypeCompte(1L);
@@ -95,15 +97,12 @@ public class InternauteHtmlController {
         iInternauteService.creeCompte(compte);
         // Création de l'utilisateur correspondant à ce compte
 
-        jdbcUserDetailsManager.createUser(User.withUsername(compte.getPseudo()).password(passwordEncoder.encode("1234")).roles("REDACT").build());
+        //Création dans la table 'users'
+        //jdbcUserDetailsManager.createUser(User.withUsername(compte.getPseudo()).password(passwordEncoder.encode("1234")).roles("REDACT").build());
+        jdbcUserDetailsManager.createUser(User.withUsername(compte.getPseudo()).password(compte.getMotDePasse()).roles("REDACT").build());
 
         ra.addFlashAttribute("Compte créé");
         return "redirect:/public/index"; //
     }
-   /* @GetMapping("/redact/creecompte") // construit
-    public String creeCompte(Compte compte, Model model){//
-        model.addAttribute("compte", compte);
-        return "creeCompte";
-    }*/
 
 }

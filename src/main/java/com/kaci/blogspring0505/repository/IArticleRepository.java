@@ -10,37 +10,45 @@ import org.springframework.data.jpa.repository.Modifying;
 import com.kaci.blogspring0505.entities.Article;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-public interface IArticleRepository extends JpaRepository<Article, Long>{
+@Repository
+public interface IArticleRepository extends JpaRepository<Article, Long> {
     /*** Articles *************/
-    //READ
-    // Recherche d'un article avec son Id
-        //Article findByIdArticle(Long idArticle);
-    @Query("SELECT a FROM Article a WHERE a.idArticle= :x")
-    Article chercheArticleId(@Param("x") Long idArticle);
+    // READ
+    // Liste de tous les articles
+    // List<Article> findAll(); //JPA
+    @Query("SELECT a FROM Article a") // JPQL
+    List<Article> listeArticle();
 
     // Liste des articles en attente de modération
-        //List<Article> findArticlesByModereIsFalse();
+    // List<Article> findArticlesByModereIsFalse();
     @Query("SELECT a FROM Article a WHERE a.modere=false")
     List<Article> articlesNonModeres();
 
     // Accueil site : Liste Articles publiques
-        //List<Article> findArticlesBy_publicIsTrue();
+    // List<Article> findArticlesBy_publicIsTrue();
     @Query("SELECT a FROM Article a WHERE a._public=true")
     List<Article> articlesPublics();
 
-    //DELETE 
-    // supprimer un article (supprimer d'abord ses commentaires, voir ICommentaireRepository)
-    //Méthode 1 : JPA avec l'annotation @Transactional
+    // Recherche d'un article avec son Id
+    // Article findByIdArticle(Long idArticle);
+    @Query("SELECT a FROM Article a WHERE a.idArticle= :x")
+    Article chercheArticleId(@Param("x") Long idArticle);
+
+    // DELETE
+    // supprimer un article (supprimer d'abord ses commentaires, voir
+    // ICommentaireRepository)
+    // Méthode 1 : JPA avec l'annotation @Transactional
     @Transactional
     void deleteByIdArticle(Long idArticle);
-    //Méthode 2 : @Query avec les 2 annotations @Transactional et @Modifying
+
+    // Méthode 2 : @Query avec les 2 annotations @Transactional et @Modifying
     @Transactional
     @Modifying
     @Query("DELETE FROM Article a WHERE  a.idArticle= :x")
     void supprimeArticle(@Param("x") Long idArticle);
 
 }
-
