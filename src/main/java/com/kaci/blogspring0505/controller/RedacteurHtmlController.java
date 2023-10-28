@@ -33,7 +33,7 @@ public class RedacteurHtmlController {
     // CREATE un article
     // 1. Construire l'article
     @GetMapping("/redact/formArticle")
-    @PreAuthorize("hasRole('REDACT')") // il faut être rédacteur
+    @PreAuthorize("hasRole('REDACT') or hasRole('MODER') or hasRole('ADMIN')")
     public String formArticle(Article article, Model model) {//
         model.addAttribute(article);
         return "articles/formArticle";
@@ -60,7 +60,7 @@ public class RedacteurHtmlController {
     // READ
     // liste des articles
     @GetMapping("/redact/index")
-    @PreAuthorize("hasRole('REDACT')") //
+    @PreAuthorize("hasRole('REDACT') or hasRole('MODER') or hasRole('ADMIN')") //
     public String listeArticle(Model model) {
         List<Article> articles = iRedacteurService.listeArticle();
         model.addAttribute("listeArticles", articles);
@@ -98,7 +98,7 @@ public class RedacteurHtmlController {
         try {
             Article article = iRedacteurService.chercheArticle(idArticle);
             model.addAttribute("article", article);
-            return "editArticle"; // formulaire de modification de l'article
+            return "articles/editArticle"; // formulaire de modification de l'article
         } catch (RuntimeException e) { // cas erreur
             return "redirect:'/redact/index'"; // retour à l'accueil
         }

@@ -41,9 +41,9 @@ public class SecurityConfig {
 
         // ajout des autorisations // méthode 1
         httpSecurity.authorizeHttpRequests().requestMatchers("/public/**").permitAll();
-        httpSecurity.authorizeHttpRequests().requestMatchers("/redact/**").hasRole("REDACT");
+        /*httpSecurity.authorizeHttpRequests().requestMatchers("/redact/**").hasRole("REDACT");
         httpSecurity.authorizeHttpRequests().requestMatchers("/moder/**").hasRole("MODER");
-        httpSecurity.authorizeHttpRequests().requestMatchers("/admin/**").hasRole("ADMIN");
+        httpSecurity.authorizeHttpRequests().requestMatchers("/admin/**").hasRole("ADMIN");*/
 
         // Autoriser les différents outils de développement tels que 'bootstrap'
         httpSecurity.authorizeHttpRequests().requestMatchers("/css/**", "/js/**", "/webjars/**").permitAll();

@@ -15,10 +15,8 @@
 </head>
 <body class="p-3 mb-2 bg-secondary bg-gradient text-white">
 <div layout:fragment="lecontenu">
-
     <button class="bg-secondary" th:if="${#authentication.name.equalsIgnoreCase('anonymousUser')}"><a class="h6 text-info" th:href="@{/public/index}"><span class="bi-arrow-left"></span> Retour aux publications</a></button><br><br>
     <button class="bg-secondary" th:if="${!#authentication.name.equalsIgnoreCase('anonymousUser')}"><a class="h6 text-info" th:href="@{/redact/index}"><span class="bi-arrow-left"></span> Retour aux publications</a></button><br><br>
-
     <div class="card bg-light text-dark">
         <div class="card-header"><span class="h4 text-xxl-start" th:text="${article.getTitre()}"></span>
             - Auteur : <span class="h6 text-xxl-start" th:text="${compte.getPseudo()}"></span></div>
@@ -32,15 +30,20 @@
     <table class="table">
         <tr><!-- <th>Numéro</th> --><th>Contenu</th><!-- <th>Public</th><th>Modéré</th> --><th>Date</th></tr>
         <tr th:each="a:${listecommentaires}">
-            <!-- <td th:text="${a.idCommentaire}"></td> -->
             <td th:text="${a.contenu}"></td>
-            <!-- <td th:text="${a._public}"></td>
-            <td th:text="${a.modere}"></td> -->
             <td th:text="${#dates.format(a.date, 'dd-MM-yyyy')}"></td>
-            <td th:if="${#authentication.name.equalsIgnoreCase('anonymousUser')}"><a class="text-decoration-none text-info" th:href="@{/public/affichecommentaire(idCommentaire=${a.idCommentaire})}">Afficher</a></td>
-            <td th:if="${!#authentication.name.equalsIgnoreCase('anonymousUser')}"><a class="text-decoration-none text-info" th:href="@{/redact/affichecommentaire(idCommentaire=${a.idCommentaire})}">Afficher</a></td>
-            <td th:if="${#authentication.name.equalsIgnoreCase(a.getCompte().getPseudo())}"><a class="text-decoration-none text-info" th:href="@{/redact/editcommentaire(idCommentaire=${a.idCommentaire})}">Modifier</a></td>
-            <td th:if="${#authentication.name.equalsIgnoreCase(a.getCompte().getPseudo())}"><a class="text-decoration-none text-info" th:href="@{/redact/supprimecommentaire(idCommentaire=${a.idCommentaire})}">Supprimer</a></td>
+            <td th:if="${#authentication.name.equalsIgnoreCase('anonymousUser')}">
+                <a class="text-decoration-none text-info" th:href="@{/public/affichecommentaire(idCommentaire=${a.idCommentaire})}">
+                    Afficher</a></td>
+            <td th:if="${!#authentication.name.equalsIgnoreCase('anonymousUser')}">
+                <a class="text-decoration-none text-info" th:href="@{/redact/affichecommentaire(idCommentaire=${a.idCommentaire})}">
+                    Afficher</a></td>
+            <td th:if="${#authentication.name.equalsIgnoreCase(a.getCompte().getPseudo())}">
+                <a class="text-decoration-none text-info" th:href="@{/redact/editcommentaire(idCommentaire=${a.idCommentaire})}">
+                    Modifier</a></td>
+            <td th:if="${#authentication.name.equalsIgnoreCase(a.getCompte().getPseudo())}">
+                <a class="text-decoration-none text-info" th:href="@{/redact/supprimecommentaire(idCommentaire=${a.idCommentaire})}">
+                    Supprimer</a></td>
 
         </tr>
     </table>

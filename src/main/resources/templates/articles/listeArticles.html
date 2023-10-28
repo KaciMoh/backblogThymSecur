@@ -23,25 +23,21 @@
     </thead>
     <tbody>
         <tr th:each="a:${listeArticles}">
-            <!--<td th:text="${a.idArticle}"></td>-->
             <td th:text="${a.titre}"></td>
             <td><input type="text" size="30" th:value="${a.contenu}"></td>
             <td th:text="${a.compte.getPseudo()}"></td>
             <td th:text="${#dates.format(a.date, 'dd-MM-yyyy')}"></td>
-
-<!--            <td th:text="${a._public}"></td>
-            <td th:text="${a.modere}"></td>-->
             <td  th:if="${#authentication.name.equalsIgnoreCase('anonymousUser')}">
-                <a class="text-decoration-none text-info" th:href="@{/public/listecommentairesarticle(idArticle=${a.idArticle})}">
-                    Afficher</a></td>
-            <td  th:if="${!#authentication.name.equalsIgnoreCase('anonymousUser')}">
-                <a class="text-decoration-none text-info" th:href="@{/redact/listecommentairesarticle(idArticle=${a.idArticle})}">
+                <a class="text-decoration-none text-info" 
+                th:href="@{/public/listecommentairesarticle(idArticle=${a.idArticle})}">
                     Afficher</a></td>
             <td th:if="${#authentication.name.equalsIgnoreCase(a.getCompte().getPseudo())}">
-                <a class="text-decoration-none text-info" th:href="@{/redact/editArticle(idArticle=${a.idArticle})}">
+                <a class="text-decoration-none text-info" 
+                th:href="@{/redact/editArticle(idArticle=${a.idArticle})}">
                     Modifier</a></td>
             <td th:if="${#authentication.name.equalsIgnoreCase(a.getCompte().getPseudo())}">
-                <a class="text-decoration-none text-info" th:href="@{/redact/supprimearticle(idArticle=${a.idArticle})}">
+                <a class="text-decoration-none text-info" 
+                th:href="@{/redact/supprimearticle(idArticle=${a.idArticle})}">
                     Supprimer</a></td>
         </tr>
     </tbody>

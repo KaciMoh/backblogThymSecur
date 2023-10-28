@@ -33,14 +33,14 @@ public class Blogspring0505Application {
 
     // Initialisation des données /******* Exécution au démarrage*/
     // TypeCompte
-    // @Bean
+    @Bean
     CommandLineRunner start(ITypeCompteRepository iTypeCompteRepository, ICompteRepository iCompteRepository,
             IArticleRepository iArticleRepository,
             ICommentaireRepository iCommentaireRepository,
             JdbcUserDetailsManager jdbcUserDetailsManager) {
         // TypeCompte
         return args -> {
-            Stream.of("redacteur", "moderateur", "admin")
+            Stream.of("ROLE_REDACT", "ROLE_MODER", "ROLE_ADMIN")
                     .forEach(label -> {
                         TypeCompte typeCompte = new TypeCompte();
                         typeCompte.setLabel(label);
@@ -48,9 +48,26 @@ public class Blogspring0505Application {
                         iTypeCompteRepository.save(typeCompte);
 
                     });
+        };}
 
-            // Compte
-            TypeCompte typeCompte1 = iTypeCompteRepository.findById(1L).orElse(null);
+        // Compte
+        // @Bean
+        CommandLineRunner start2(ITypeCompteRepository iTypeCompteRepository, ICompteRepository iCompteRepository,
+                IArticleRepository iArticleRepository,
+                ICommentaireRepository iCommentaireRepository,
+                JdbcUserDetailsManager jdbcUserDetailsManager) {
+            // TypeCompte
+            return args -> {
+                Stream.of("ROLE_REDACT", "ROLE_MODER", "ROLE_ADMIN")
+                        .forEach(label -> {
+                            TypeCompte typeCompte = new TypeCompte();
+                            typeCompte.setLabel(label);
+
+                            iTypeCompteRepository.save(typeCompte);
+
+                        });
+
+                TypeCompte typeCompte1 = iTypeCompteRepository.findById(1L).orElse(null);
 
             Stream.of("Moh", "Kaci", "Saly", "Margot")
                     .forEach(pseudo -> {

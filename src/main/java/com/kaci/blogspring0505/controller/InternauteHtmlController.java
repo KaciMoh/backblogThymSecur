@@ -86,7 +86,7 @@ public class InternauteHtmlController {
         compte.setEfface(false);
         compte.setSupressionDonnee(false);
         compte.setValide(false);
-        //Encodage du mot de passe
+        //Encodage du mot de passe ***
         compte.setMotDePasse(passwordEncoder.encode(compte.getMotDePasse()));
 
         // Type Compte = "redacteur"
